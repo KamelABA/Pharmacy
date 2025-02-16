@@ -104,11 +104,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-primary" id="saveInfoBtn{{ $product->id }}" disabled>
-                            حفظ المعلومات
-                        </button>
                         <button type="submit" class="btn btn-secondary" id="completePurchaseBtn{{ $product->id }}" disabled>
-                            تخطي وإكمال الشراء
+                            شراء الان
                         </button>
                     </div>
                 </form>
@@ -286,16 +283,13 @@ if (state === '01: أدرار') {
     let isQuantityValid = quantity <= {{ $product->quantity }}; // Check if quantity is valid
 
     if (name && phone && state && city && quantity && isQuantityValid) {
-        document.getElementById('saveInfoBtn{{ $product->id }}').disabled = false;
         document.getElementById('completePurchaseBtn{{ $product->id }}').disabled = false;
     } else {
-        document.getElementById('saveInfoBtn{{ $product->id }}').disabled = true;
         document.getElementById('completePurchaseBtn{{ $product->id }}').disabled = true;
     }
 
     // Disable buttons if quantity is invalid
     if (!isQuantityValid) {
-        document.getElementById('saveInfoBtn{{ $product->id }}').disabled = true;
         document.getElementById('completePurchaseBtn{{ $product->id }}').disabled = true;
     }
  }

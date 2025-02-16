@@ -48,13 +48,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="\" class="nav-item nav-link active">Home</a>
-                <a href="#about" class="nav-item nav-link">About</a>
+                <a href="/" class="nav-item nav-link active">Home</a>
+                <a href="/guide" class="nav-item nav-link">Guide</a>
 
                 <div class="nav-item dropdown">
                     <a href="#Products" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Products</a>
                     <div class="dropdown-menu rounded-0 m-0">
-                        <a href="#Products" class="dropdown-item">Product List</a>
+                        <a href="#Products" class="dropdown-item">New Products</a>
                         <a href="/products" class="dropdown-item">All Products</a>
                         @if(auth()->check() && auth()->user()->is_admin)
                         <a class="dropdown-item" href="{{ route('products.orders') }}">Orders</a>
@@ -67,6 +67,7 @@
                     <div class="dropdown-menu rounded-0 m-0">
                         <a href="#category" class="dropdown-item">Category</a>
                         <a href="#Reviews" class="dropdown-item">Testimonial</a>
+                        <a href="#about" class="dropdown-item">About</a>
                     </div>
                 </div>
                 @endif
@@ -111,6 +112,7 @@
                     <h5 class="text-white mb-4">Company</h5>
                     <a class="btn btn-link text-white-50" href="#about">About Us</a>
                     <a class="btn btn-link text-white-50" href="\contact">Contact Us</a>
+                    <a class="btn btn-link text-white-50" href="/guide">Guide</a>
                     <!-- <a class="btn btn-link text-white-50" href="">Our Services</a>
                     <a class="btn btn-link text-white-50" href="">Privacy Policy</a> -->
                     <!-- <a class="btn btn-link text-white-50" href="">Terms &amp; Condition</a> -->
@@ -120,8 +122,7 @@
                     <a class="btn btn-link text-white-50" href="https://www.instagram.com/pharmacy_ilyas/">Instagram</a>
                     <a class="btn btn-link text-white-50" href="https://www.facebook.com/profile.php?id=61566844845807">Facebook</a>
                     <a class="btn btn-link text-white-50" href="\">Our WebSite</a>
-                    <!-- <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                    <a class="btn btn-link text-white-50" href="">Terms &amp; Condition</a> -->
+                    <!-- <a class="btn btn-link text-white-50" href="">Terms &amp; Condition</a> -->
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-white mb-4">Contact</h5>

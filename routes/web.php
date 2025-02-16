@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/orders/{id}', [ProductController::class, 'destroyO'])->name('orders.destroyO');
-
+    Route::put('/orders/{id}/approve', [ProductController::class, 'approve'])->name('products.approve');
     
 });
 
@@ -56,3 +56,11 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 Route::get('/products/orders', [ProductController::class, 'orders'])->name('products.orders')->middleware('auth');
 
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
+
+
+
+Route::get('/guide', function () {
+    return view('guide');
+})->name('guide');
+
+

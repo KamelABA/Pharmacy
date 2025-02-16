@@ -82,11 +82,28 @@ class ProductController extends Controller
 
 
     public function destroy($id)
-    {
-        $product = Product::findOrFail($id);
-        $product->delete();
-        return redirect()->route('products.products')->with('success', 'Product deleted successfully!');
+{
+    $product = Product::findOrFail($id);
+
+    // التحقق من أن المنتج يحتوي على صور
+    if ($product->images) {
+        $images = json_decode($product->images, true);
+
+        foreach ($images as $image) {
+            $imagePath = storage_path("app/public/{$image}"); // تحديد مسار الصورة
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // حذف الصورة من السيرفر
+            }
+        }
     }
+
+    // حذف المنتج من قاعدة البيانات
+    $product->delete();
+
+    return redirect()->route('products.products')->with('success', 'Product deleted successfully!');
+}
+
 
     public function edit($id)
     {
@@ -150,72 +167,70 @@ class ProductController extends Controller
 
     
 
-public function buy(Request $request, $id)
-{
-    // التحقق من صحة البيانات المدخلة
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
-        'state' => 'required|string',
-        'city' => 'required|string',
-        'quantity' => 'required|integer|min:1',
-    ]);
-
-    Log::info('قبل جلب المنتج', ['data' => $validated, 'product_id' => $id]);
-
-    // البحث عن المنتج مع قفل للتحديث
-    $product = Product::lockForUpdate()->find($id);
-
-    if (!$product) {
-        Log::error("المنتج غير موجود", ['product_id' => $id]);
-        return back()->with('error', 'المنتج غير موجود.');
-    }
-
-    Log::info('تم العثور على المنتج', ['product' => $product]);
-
-    // التحقق من الكمية المتاحة
-    if ($validated['quantity'] > $product->quantity) {
-        Log::warning('الكمية المطلوبة غير متوفرة', [
-            'requested_quantity' => $validated['quantity'],
-            'available_quantity' => $product->quantity
+    public function buy(Request $request, $id)
+    {
+        // التحقق من صحة البيانات المدخلة
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'quantity' => 'required|integer|min:1',
         ]);
-        return back()->with('error', 'الكمية المطلوبة غير متوفرة.');
+    
+        Log::info('قبل جلب المنتج', ['data' => $validated, 'product_id' => $id]);
+    
+        // البحث عن المنتج
+        $product = Product::find($id);
+    
+        if (!$product) {
+            Log::error("المنتج غير موجود", ['product_id' => $id]);
+            return back()->with('error', 'المنتج غير موجود.');
+        }
+    
+        Log::info('تم العثور على المنتج', ['product' => $product]);
+    
+        // التحقق من الكمية المتاحة
+        if ($validated['quantity'] > $product->quantity) {
+            Log::warning('الكمية المطلوبة غير متوفرة', [
+                'requested_quantity' => $validated['quantity'],
+                'available_quantity' => $product->quantity
+            ]);
+            return back()->with('error', 'الكمية المطلوبة غير متوفرة.');
+        }
+    
+        // تحديد مستخدم عشوائي في حال لم يكن المستخدم مسجلاً
+        $randomUserId = auth()->id() ?? User::inRandomOrder()->first()->id ?? null;
+    
+        if (!$randomUserId) {
+            Log::error('لم يتم العثور على مستخدم لإنشاء الطلب');
+            return back()->with('error', 'حدث خطأ في إنشاء الطلب، يرجى المحاولة لاحقًا.');
+        }
+    
+        // إنشاء الطلب بدون خصم الكمية الآن
+        try {
+            $order = Order::create([
+                'user_id' => $randomUserId,
+                'product_id' => $product->id,
+                'name' => $validated['name'],
+                'phone' => $validated['phone'],
+                'state' => $validated['state'],
+                'city' => $validated['city'],
+                'quantity' => $validated['quantity'],
+                'total_price' => ($product->price * $validated['quantity']) + 800, // إضافة تكاليف الشحن
+                'status' => 'قيد المعالجة', // لم يتم تأكيد الطلب بعد
+            ]);
+    
+            Log::info('تم إنشاء الطلب بنجاح', ['order' => $order]);
+    
+            return redirect()->route('products.details', ['id' => $product->id])
+                ->with('success', 'تم تقديم الطلب بنجاح، سيتم معالجته قريبًا.');
+        } catch (\Exception $e) {
+            Log::error('خطأ أثناء إنشاء الطلب', ['error' => $e->getMessage()]);
+            return back()->with('error', 'حدث خطأ أثناء معالجة الطلب.');
+        }
     }
-
-    // تحديد مستخدم عشوائي في حال لم يكن المستخدم مسجلاً
-    $randomUserId = auth()->id() ?? User::inRandomOrder()->first()->id ?? null;
-
-    if (!$randomUserId) {
-        Log::error('لم يتم العثور على مستخدم لإنشاء الطلب');
-        return back()->with('error', 'حدث خطأ في إنشاء الطلب، يرجى المحاولة لاحقًا.');
-    }
-
-    // إنشاء الطلب
-    try {
-        $order = Order::create([
-            'user_id' => $randomUserId,
-            'product_id' => $product->id,
-            'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'state' => $validated['state'],
-            'city' => $validated['city'],
-            'quantity' => $validated['quantity'],
-            'total_price' => ($product->price * $validated['quantity']) + 800, // إضافة تكاليف الشحن
-            'status' => 'قيد المعالجة',
-        ]);
-
-        Log::info('تم إنشاء الطلب بنجاح', ['order' => $order]);
-
-        // تحديث الكمية في المخزون
-        $product->decrement('quantity', $validated['quantity']);
-
-        return redirect()->route('products.details', ['id' => $product->id])
-            ->with('success', 'تم شراء المنتج بنجاح.');
-    } catch (\Exception $e) {
-        Log::error('خطأ أثناء إنشاء الطلب', ['error' => $e->getMessage()]);
-        return back()->with('error', 'حدث خطأ أثناء معالجة الطلب.');
-    }
-}
+    
 
 
 
@@ -279,6 +294,24 @@ public function search(Request $request)
     return view('products.products', compact('products'));
 }
 
+
+public function approve($id)
+{
+    $order = Order::findOrFail($id);
+    
+    // جلب المنتج المرتبط بالطلب
+    $product = Product::find($order->product_id);
+    
+    // خصم الكمية من المنتج
+    if ($product && $product->quantity >= $order->quantity) {
+        $product->decrement('quantity', $order->quantity);
+    }
+
+    // حذف الطلب من قاعدة البيانات بعد الموافقة عليه
+    $order->delete();
+
+    return response()->json(['success' => true, 'message' => 'تمت الموافقة على الطلب وحذفه من النظام.']);
+}
 
 
 

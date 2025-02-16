@@ -9,15 +9,17 @@
     --light: #EFFDF5;
     --dark: #2B3940;
 }
+
 .zoom-image {
     width: 200px;
     height: 200px;
     transition: transform 0.3s ease;
-  }
+}
 
-  .zoom-image:hover {
-    transform: scale(1.5); /* يمكنك تغيير القيمة حسب الحجم الذي تريده */
-  }
+.zoom-image:hover {
+    transform: scale(1.5);
+    /* يمكنك تغيير القيمة حسب الحجم الذي تريده */
+}
 
 .back-to-top {
     position: fixed;
@@ -116,8 +118,9 @@
 }
 
 @media (max-width: 991.98px) {
+
     .navbar-dark .navbar-nav .nav-link,
-    .navbar-light .navbar-nav .nav-link  {
+    .navbar-light .navbar-nav .nav-link {
         margin-right: 0;
         padding: 10px 0;
     }
@@ -152,7 +155,7 @@
         opacity: 0;
         visibility: hidden;
         transition: .5s;
-        
+
     }
 
     .navbar .nav-item:hover .dropdown-menu {
@@ -196,7 +199,7 @@
         position: relative;
         min-height: 500px;
     }
-    
+
     .header-carousel img {
         position: absolute;
         width: 100%;
@@ -251,7 +254,7 @@
     background-size: cover;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: var(--light);
 }
 
@@ -346,7 +349,7 @@
     align-items: center;
     justify-content: center;
     color: var(--light);
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 2px;
     transition: .3s;
 }
@@ -381,7 +384,7 @@
 }
 
 .footer .form-control {
-    border-color: rgba(255,255,255,0.5);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .footer .copyright {
@@ -405,7 +408,19 @@
     padding-right: 0;
     border-right: none;
 }
-h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
     margin-top: 0;
     margin-bottom: .5rem;
     font-family: "Inter", sans-serif;
@@ -413,13 +428,62 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     line-height: 1.2;
     color: #2B3940;
 }
+
 .card:hover {
-    background-color: #e8e5e5 !important; /* اللون الرمادي الغامق عند التحويل */
+    background-color: #e8e5e5 !important;
+    /* اللون الرمادي الغامق عند التحويل */
     transition: background-color 0.3s ease-in-out;
 }
 
 #spinner {
-    transition: opacity 0.8s ease-in-out; /* اجعل الاختفاء تدريجيًا */
+    transition: opacity 0.8s ease-in-out;
+    /* اجعل الاختفاء تدريجيًا */
 }
 
 
+.modal-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 100%;
+}
+
+#filterL:hover {
+    background-color: #9c9c9c;
+}
+
+.product-card {
+    height: 100%;
+    /* تأكد أن البطاقة تأخذ الارتفاع الكامل */
+    min-height: 380px;
+    /* ضبط ارتفاع موحد لكل البطاقات */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-image {
+    max-height: 160px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 576px) {
+
+    /* شاشة الهاتف */
+    .product-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* إضافة ... إذا زاد النص */
+    }
+}
+
+#guide {
+    direction: rtl;
+    /* جعل الاتجاه من اليمين إلى اليسار */
+    text-align: right;
+    margin-top: 50px;
+    margin-right: 50px;
+}

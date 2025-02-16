@@ -35,9 +35,10 @@
                     <td>{{ $order->total_price }} دج</td>
                     <td><span class="badge bg-warning">{{ $order->status }}</span></td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-primary">عرض</a>
-                        <a href="#" class="btn btn-sm btn-danger" onclick="deleteOrder({{ $order->id }})">إلغاء</a>
-                    </td>
+    <button class="btn btn-sm btn-primary" onclick="approveOrder({{ $order->id }})">موافقة</button>
+    <button class="btn btn-sm btn-danger" onclick="deleteOrder({{ $order->id }})">إلغاء</button>
+</td>
+
                 </tr>
                 @endforeach
             </tbody>
@@ -48,6 +49,28 @@
 
 
 <script>
+
+function approveOrder(orderId) {
+    if (confirm("هل تريد تأكيد هذا الطلب؟")) {
+        fetch(`/orders/${orderId}/approve`, {
+            method: "PUT",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("تمت الموافقة على الطلب بنجاح!");
+                location.reload();
+            } else {
+                alert("حدث خطأ أثناء الموافقة على الطلب.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+}
     function deleteOrder(orderId) {
         const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
 

@@ -226,8 +226,8 @@
                                 </div>
                                 <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                     <div class="d-flex mb-3">
-                                        <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-success"></i></a>
-                                        <a class="btn btn-success" href="">Buy Now</a>
+                                        <!-- <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-success"></i></a> -->
+                                        <a class="btn btn-success" href="{{ route('product.detail', $product->id) }}">اطلب الان</a>
                                     </div>
                                     <small class="text-truncate"><i class="far fa-calendar-alt text-success me-2"></i>Date Line: {{ $product->created_at->format('d M, Y') }}</small>
                                 </div>
