@@ -245,6 +245,8 @@
 
 
     <!-- Testimonial Start -->
+    
+
     @if(auth()->check() && auth()->user()->is_admin)
     <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s" id="Reviews">
         <div class="container">
@@ -300,6 +302,13 @@
     @endif
     <!-- Testimonial End -->
 
+   
+
+
+
+
+
+    
 
 
 

@@ -487,3 +487,11 @@ h6,
     margin-top: 50px;
     margin-right: 50px;
 }
+.modal-dialog-slideout {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog-slideout {
+    transform: translateX(0);
+}

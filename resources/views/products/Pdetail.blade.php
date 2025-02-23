@@ -41,13 +41,24 @@
             <p><strong>السعر:</strong> {{ $product->price }} DA</p>
             <p><strong>الكمية المتوفرة:</strong> {{ $product->quantity }}</p>
 
-            <button type="button" class="btn btn-success btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#buyModal">
-                شراء <i class="fas fa-shopping-cart"></i>
-            </button>
+            <div class="d-flex gap-2 mt-3">
+    <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#buyModal">
+        🛍️  شراء الان 
+    </button>
+    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-primary btn-lg">🛒 أضف إلى السلة</button>
+    </form>
+</div>
+
         </div>
     </div>
 </div>
-
+<button type="button" class="position-fixed d-flex align-items-center justify-content-center rounded-circle shadow-lg"
+   style="left: 20px; width: 50px; height: 50px; background-color: white; border: 2px solid #198754; z-index: 9999;"
+   data-bs-toggle="modal" data-bs-target="#cartModal">
+   <i class="fas fa-shopping-cart text-success fs-4"></i>
+</button>
 <!-- Modal لإدخال معلومات الشراء -->
 <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -104,15 +115,34 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-secondary" id="completePurchaseBtn{{ $product->id }}" disabled>
-                            شراء الان
+                        <button type="submit" class="btn btn-success w-100" id="completePurchaseBtn{{ $product->id }}" disabled>
+                            شراء
                         </button>
                     </div>
+                    
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+       let cartButton = document.getElementById("cartButton");
+       let cartModal = document.getElementById("cartModal");
+
+       // عند فتح المودال → إخفاء الزر
+       cartModal.addEventListener("shown.bs.modal", function () {
+           cartButton.style.display = "none";
+           console.log("PO")
+       });
+
+       // عند إغلاق المودال → إظهار الزر
+       cartModal.addEventListener("hidden.bs.modal", function () {
+           cartButton.style.display = "block";
+       });
+   });
+</script>
 
 <script>
  function updateDeliveryFee{{ $product->id }}() {

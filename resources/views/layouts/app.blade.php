@@ -49,7 +49,6 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="/" class="nav-item nav-link active">Home</a>
-                <a href="/guide" class="nav-item nav-link">Guide</a>
 
                 <div class="nav-item dropdown">
                     <a href="#Products" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Products</a>
@@ -71,7 +70,7 @@
                     </div>
                 </div>
                 @endif
-
+                <a href="/guide" class="nav-item nav-link">Guide</a>
                 <a href="/contact" class="nav-item nav-link">Contact</a>
             </div>
 
@@ -98,7 +97,79 @@
         </div>
     </nav>
 
-    
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
+        <div class="modal-dialog modal-dialog-slideout modal-lg" style="position: fixed; left: 0; top: 0; height: 100%; margin: 0; max-width: 350px;">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">🛒 سلة المشتريات</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @php
+                    $totalPrice = 0;
+                    $cart = session('cart', []); // تأكد من أن cart موجودة، وإذا لم تكن موجودة، ستُعيد مصفوفة فارغة
+                    @endphp
+
+                    @if(count($cart) > 0)
+                    <ul class="list-group">
+                        @foreach($cart as $id => $product)
+                        @php
+                        $totalPrice += ($product['price'] ?? 0) * ($product['quantity'] ?? 1);
+                        @endphp
+
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <!-- صورة المنتج -->
+
+
+                            @if(isset($product['image']) && !empty($product['image']))
+                            @php
+                            // التحقق مما إذا كانت الصور مخزنة كمصفوفة JSON
+                            $images = is_array(json_decode($product['image'], true)) ? json_decode($product['image'], true) : [$product['image']];
+                            $firstImage = $images[0] ?? 'default.jpg';
+                            @endphp
+
+                            <img src="{{ asset('storage/' . $firstImage) }}"
+                                class="d-block rounded border"
+                                style="max-height: 80px; object-fit: cover;"
+                                alt="{{ $product['name'] }}">
+                            @endif
+
+
+                            <!-- تفاصيل المنتج -->
+                            <div class="flex-grow-1 mx-3">
+                                <span class="fw-bold">
+                                    {{ implode(' ', array_slice(explode(' ', trim($product['name'] ?? 'اسم غير متوفر')), 0, 3)) }}
+                                </span>
+                                <span class="d-block text-muted">
+                                    {{ $product['price'] ?? 0 }} DA × {{ $product['quantity'] ?? 1 }} =
+                                    <strong>{{ ($product['price'] ?? 0) * ($product['quantity'] ?? 1) }} DA</strong>
+                                </span>
+
+                            </div>
+
+                            <!-- زر إزالة المنتج -->
+                            <form action="{{ route('cart.remove', ['id' => $id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">❌</button>
+                            </form>
+                        </li>
+                        @endforeach
+                    </ul>
+
+                    <!-- إجمالي السعر -->
+                    <div class="mt-3 text-center">
+                        <strong>الإجمالي:</strong> <span class="fw-bold">{{ $totalPrice }} DA</span>
+                    </div>
+
+                    <button class="btn btn-success w-100 mt-2" data-bs-toggle="modal" data-bs-target="#buyModal">إتمام الطلب</button>
+                    @else
+                    <p class="text-center text-muted">السلة فارغة 🛒</p>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main content of the page -->
 
@@ -185,7 +256,6 @@
             }
         };
     </script>
-
 
 
 </body>

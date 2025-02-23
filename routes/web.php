@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
-
+use App\Models\Comment;
 
 Route::get('/', [ProductController::class, 'homePage'])->name('welcome');
 
@@ -62,5 +62,12 @@ Route::get('/search', [ProductController::class, 'search'])->name('products.sear
 Route::get('/guide', function () {
     return view('guide');
 })->name('guide');
+
+
+use App\Http\Controllers\CartController;
+
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 
