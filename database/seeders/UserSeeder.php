@@ -41,8 +41,9 @@ class UserSeeder extends Seeder
                 'is_admin' => $user['is_admin'] ?? 0,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
-            )
+            ]);
         }
+
+        echo "✅ تم إدخال المستخدمين بنجاح من ملف CSV!\n";
     }
-};
+}
