@@ -1,0 +1,5 @@
+id,name,email,email_verified_at,password,remember_token,created_at,updated_at,is_admin
+1,kamel,kamel.mutig14@gmail.com,,$2y$12$F53bxstVPeRaLUC5HWjeAusUoJ38X1zKNFb/SeZBgJps3IfE2tRNa,,2025-02-01 13:42:31,2025-02-01 13:42:31,t
+2,mustapha,mustapha@gmail.com,,$2y$12$WfAgxtnV4vzAtLurTVaTM.UXBqIFBciRQaUBsXb/vQLavBQ2hBEIu,,2025-02-05 15:55:15,2025-02-05 15:55:15,f
+3,kamoula,kamel@gmail.com,,$2y$12$N/YxNlcFpNivwINTkeW.O.T6QV7eVHBB2CkmvbvmSk/OiYhsVFUlm,,2025-02-08 13:29:27,2025-02-08 13:29:27,f
+4,Test User,test@example.com,2025-03-11 17:08:54,$2y$12$ROzELwvezGsBJSPOdVOg3.weGFCPRiIKAZPUSBoJ.fbRdt8bbm/x6,elJUF77grO,2025-03-11 17:08:54,2025-03-11 17:08:54,f
