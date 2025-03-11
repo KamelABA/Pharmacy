@@ -32,6 +32,7 @@ class ProductSeeder extends Seeder
                 'description' => $record['description'],
                 'price'       => $record['price'],
                 'quantity'       => $record['quantity'],
+                'type' => $record['type'],
                 'created_at'  => $record['created_at'],
                 'updated_at'  => $record['updated_at'],
             ]);
