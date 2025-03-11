@@ -10,31 +10,34 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::table('products', function (Blueprint $table) {
-        // Increase size for 'name' and 'type'
-        $table->string('name', 500)->change();
-        $table->string('type', 500)->change();
-
-        // Change 'description' to text (unlimited length)
-        $table->text('description')->change();
-    });
-}
-
-public function down()
-{
-    Schema::table('products', function (Blueprint $table) {
-        // Revert back to original size
-        $table->string('name', 255)->change();
-        $table->string('type', 255)->change();
-
-        // Revert 'description' back to string(255)
-        $table->string('description', 255)->change();
-    });
-}
-
-
+    {
+        Schema::table('products', function (Blueprint $table) {
+            // التأكد من إضافة العمود إذا لم يكن موجودًا
+            if (!Schema::hasColumn('products', 'type')) {
+                $table->string('type', 500)->nullable();
+            }
     
+            // زيادة حجم 'name'
+            $table->string('name', 500)->change();
     
+            // تغيير 'description' إلى نص طويل
+            $table->text('description')->change();
+        });
+    }
+    
+    public function down()
+    {
+        Schema::table('products', function (Blueprint $table) {
+            // إرجاع القيم الأصلية
+            $table->string('name', 255)->change();
+            
+            // لا تقم بإرجاع 'type' إذا لم يكن موجودًا مسبقًا
+            if (Schema::hasColumn('products', 'type')) {
+                $table->string('type', 255)->change();
+            }
+    
+            $table->string('description', 255)->change();
+        });
+    }
     
 };
