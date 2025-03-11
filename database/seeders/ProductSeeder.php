@@ -33,7 +33,7 @@ class ProductSeeder extends Seeder
                 'price'       => $record['price'],
                 'quantity'       => $record['quantity'],
                 'type' => $record['type'],
-                'images' => json_encode(array_map('trim', explode(',', $record['images']))),
+                'images' => json_encode(json_decode(str_replace('""', '"', $record['images']), true)),
                 'created_at'  => $record['created_at'],
                 'updated_at'  => $record['updated_at'],
             ]);
