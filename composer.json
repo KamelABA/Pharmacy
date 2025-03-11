@@ -13,7 +13,8 @@
         "kreait/laravel-firebase": "6.0",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "league/csv": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
