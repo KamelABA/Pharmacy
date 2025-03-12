@@ -15,7 +15,7 @@
             <div class="carousel-inner">
                 @foreach($images as $index => $image)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                        <img src="{{ asset('images/' . $image) }}" class="d-block w-100 rounded border" style="max-height: 500px; object-fit: cover;" alt="{{ $product->name }}">
+                        <img src="{{ asset('images/' . basename($image)) }}" class="d-block w-100 rounded border" style="max-height: 500px; object-fit: cover;" alt="{{ $product->name }}">
                     </div>
                 @endforeach
             </div>
