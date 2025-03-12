@@ -210,7 +210,7 @@
                                     @endphp
 
                                     @if($firstImage)
-                                    <img src="{{ url('storage/images/' . basename($firstImage)) }}" alt="{{ $product->name }}" class="img-fluid mb-3 border zoom-image" style="max-height: 150px;" onclick="zoomImage(this)">
+                                    <img src="{{ asset('images/' . basename($firstImage)) }}" alt="{{ $product->name }}" class="img-fluid mb-3 border zoom-image" style="max-height: 150px;" onclick="zoomImage(this)">
                                     @endif
                                     @endif
                                     <div class="text-start ps-4">
