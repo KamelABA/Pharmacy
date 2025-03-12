@@ -60,6 +60,7 @@
                         @endif
                     </div>
                 </div>
+
                 @if(request()->is('/'))
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -70,32 +71,34 @@
                     </div>
                 </div>
                 @endif
+
                 <a href="/guide" class="nav-item nav-link">Guide</a>
                 <a href="/contact" class="nav-item nav-link">Contact</a>
-            </div>
 
-            @if(Auth::check())
-            <!-- If the user is logged in, display their name -->
-            <div class="d-flex align-items-center">
-                <a href="{{ route('logout') }}"
-                    class="btn btn-danger rounded-0 py-4 px-lg-5 d-none d-lg-block"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    {{ Auth::user()->name }}
+                @if(Auth::check())
+                <!-- If the user is logged in, display their name -->
+                <div class="d-flex align-items-center">
+                    <a href="{{ route('logout') }}" class="btn btn-danger rounded-0 py-4 px-lg-5 w-100"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ Auth::user()->name }}
+                    </a>
+                </div>
+
+                <!-- Logout form -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                @else
+                <!-- If the user is not logged in, show the Log in button -->
+                <a href="{{ route('login') }}" class="btn btn-success rounded-0 py-4 px-lg-5">
+                    Log in <i class="fa fa-arrow-right ms-3"></i>
                 </a>
+                @endif
             </div>
-
-            <!-- Logout form -->
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-            @else
-            <!-- If the user is not logged in, show the Log in button -->
-            <a href="{{ route('login') }}" class="btn btn-success rounded-0 py-4 px-lg-5 d-none d-lg-block">
-                Log in <i class="fa fa-arrow-right ms-3"></i>
-            </a>
-            @endif
         </div>
     </nav>
+
+
 
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-dialog-slideout modal-lg" style="position: fixed; left: 0; top: 0; height: 100%; margin: 0; max-width: 350px;">
