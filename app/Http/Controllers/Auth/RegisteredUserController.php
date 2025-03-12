@@ -47,6 +47,6 @@ class RegisteredUserController extends Controller
         session()->flash('success', 'You have successfully registered and logged in!');
 
         // Redirect to the intended page or default dashboard
-        return redirect()->route('dashboard');
+        return redirect()->route('welcome');
     }
 }
