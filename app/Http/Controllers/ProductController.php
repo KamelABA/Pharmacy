@@ -47,16 +47,17 @@ class ProductController extends Controller
                 // إنشاء اسم فريد للصورة
                 $imageName = time() . '_' . $image->getClientOriginalName();
         
-                // حفظ الصورة في مجلد 'public/images'
-                $imagePath = $image->storeAs('images', $imageName, 'public');
+                // حفظ الصورة مباشرة في مجلد 'public/images'
+                $image->move(public_path('images'), $imageName);
         
-                // إضافة المسار إلى المصفوفة
-                $imagePaths[] = $imagePath;
+                // حفظ المسار في المصفوفة
+                $imagePaths[] = 'images/' . $imageName; // حفظ فقط المسار النسبي
             }
         
             // حفظ المسارات في قاعدة البيانات بصيغة JSON
             $product->images = json_encode($imagePaths);
         }
+        
         
         $product->save();
         
