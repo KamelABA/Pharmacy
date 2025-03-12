@@ -89,7 +89,7 @@
             <div class="mt-2 d-flex flex-wrap">
                 @foreach(json_decode($product->images, true) as $image)
                 <div class="me-2">
-                    <img src="{{ asset('storage/' . $image) }}" alt="{{ $product->name }}" class="img-fluid rounded border" style="max-height: 150px;">
+                    <img src="{{ asset('images/' . $image) }}" alt="{{ $product->name }}" class="img-fluid rounded border" style="max-height: 150px;">
                 </div>
                 @endforeach
             </div>

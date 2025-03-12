@@ -131,7 +131,7 @@
                             $firstImage = $images[0] ?? 'default.jpg';
                             @endphp
 
-                            <img src="{{ asset('storage/' . $firstImage) }}"
+                            <img src="{{ asset('images/' . $firstImage) }}"
                                 class="d-block rounded border"
                                 style="max-height: 80px; object-fit: cover;"
                                 alt="{{ $product['name'] }}">

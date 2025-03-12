@@ -11,7 +11,7 @@
     <p>شاهد الفيديو التوضيحي أدناه:</p>
 
     <video controls width="80%">
-        <source src="{{ asset('storage/guide.mp4') }}" type="video/mp4">
+        <source src="{{ asset('video/guide.mp4') }}" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
     </video>
 

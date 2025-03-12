@@ -83,27 +83,28 @@ class ProductController extends Controller
 
 
     public function destroy($id)
-{
-    $product = Product::findOrFail($id);
-
-    // التحقق من أن المنتج يحتوي على صور
-    if ($product->images) {
-        $images = json_decode($product->images, true);
-
-        foreach ($images as $image) {
-            $imagePath = storage_path("app/public/{$image}"); // تحديد مسار الصورة
-
-            if (file_exists($imagePath)) {
-                unlink($imagePath); // حذف الصورة من السيرفر
+    {
+        $product = Product::findOrFail($id);
+    
+        // التحقق من أن المنتج يحتوي على صور
+        if ($product->images) {
+            $images = json_decode($product->images, true);
+    
+            foreach ($images as $image) {
+                $imagePath = public_path($image); // تحديد المسار الصحيح داخل مجلد 'public/images/'
+    
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); // حذف الصورة من السيرفر
+                }
             }
         }
+    
+        // حذف المنتج من قاعدة البيانات
+        $product->delete();
+    
+        return redirect()->route('products.products')->with('success', 'Product deleted successfully!');
     }
-
-    // حذف المنتج من قاعدة البيانات
-    $product->delete();
-
-    return redirect()->route('products.products')->with('success', 'Product deleted successfully!');
-}
+    
 
 
     public function edit($id)

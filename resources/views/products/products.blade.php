@@ -82,7 +82,7 @@
                         @endphp
 
                         @if($firstImage)
-                        <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $product->name }}" class="product-image">
+                        <img src="{{ asset('images/' . $firstImage) }}" alt="{{ $product->name }}" class="product-image">
                         @endif
                         @endif
 
