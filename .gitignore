@@ -2,7 +2,10 @@
 /node_modules
 /public/build
 /public/hot
-!/public/storage
+# استثناء مجلد images من التجاهل
+!storage/app/public/images/
+!storage/app/public/images/*
+
 /storage/*.key
 /storage/pail
 /vendor
