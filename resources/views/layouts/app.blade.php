@@ -28,6 +28,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
+    @vite('resources/js/app.js')
 
 </head>
 
