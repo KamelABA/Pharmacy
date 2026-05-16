@@ -1,14 +1,17 @@
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
         git \
+        libcurl4-openssl-dev \
+        libicu-dev \
+        libonig-dev \
         libpq-dev \
         libzip-dev \
         unzip \
         zip \
-    && docker-php-ext-install pdo_pgsql pgsql zip \
+    && docker-php-ext-install bcmath curl intl mbstring pdo_pgsql pgsql zip \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
